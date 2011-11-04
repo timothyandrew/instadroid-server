@@ -47,7 +47,7 @@ describe Framework do
     resp = f.call({"SERVER_SOFTWARE"=>"Apache/2.2.20 (Unix) DAV/2 Phusion_Passenger/3.0.9", 
                    "SERVER_PROTOCOL"=>"HTTP/1.1",                
                    "REQUEST_METHOD"=>"GET",
-                   "REQUEST_URI" => path
+                   "PATH_INFO" => path
                  })
     resp.should == "foo"
   end
@@ -64,7 +64,7 @@ describe Framework do
     resp = f.call({"SERVER_SOFTWARE"=>"Apache/2.2.20 (Unix) DAV/2 Phusion_Passenger/3.0.9", 
                    "SERVER_PROTOCOL"=>"HTTP/1.1",                
                    "REQUEST_METHOD"=>"POST",
-                   "REQUEST_URI" => path
+                   "PATH_INFO" => path
                  })
     resp.should == "bar"
   end  
@@ -81,8 +81,26 @@ describe Framework do
     resp = f.call({"SERVER_SOFTWARE"=>"Apache/2.2.20 (Unix) DAV/2 Phusion_Passenger/3.0.9", 
                    "SERVER_PROTOCOL"=>"HTTP/1.1",                
                    "REQUEST_METHOD"=>"GET",
-                   "REQUEST_URI" => path
+                   "PATH_INFO" => path
                  })
     resp.should == "bar"
+  end
+
+  it "passes request environment variables to the code block" do
+    f = Framework.new
+    path = '/index.html'
+
+    block = Proc.new { |env|
+      env["QUERY_STRING"]
+    }
+
+    f.get path, &block
+    resp = f.call({"SERVER_SOFTWARE"=>"Apache/2.2.20 (Unix) DAV/2 Phusion_Passenger/3.0.9", 
+                   "SERVER_PROTOCOL"=>"HTTP/1.1",                
+                   "REQUEST_METHOD"=>"GET",
+                   "PATH_INFO" => path,
+                   "QUERY_STRING" => "a=foo&b=bar"
+                 })
+    resp.should == "a=foo&b=bar"
   end
 end

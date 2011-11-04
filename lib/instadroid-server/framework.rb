@@ -14,14 +14,14 @@ class Framework
   end
 
   def call(env)
-    path = env["REQUEST_URI"]
+    path = env["PATH_INFO"]
     method = env["REQUEST_METHOD"].intern
 
     begin
-      @path_hashes[method][path].call
+      @path_hashes[method][path].call env
     rescue NoMethodError
       begin
-        @path_hashes[method][:default].call
+        @path_hashes[method][:default].call env
       rescue NoMethodError
         [404, {"Content-Type"=>"text/html"}, "Invalid URL"]
       end
