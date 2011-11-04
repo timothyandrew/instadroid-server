@@ -1,2 +1,2 @@
 require "instadroid-server/version"
-require "instadroid-server/api"
+require "instadroid-server/app"

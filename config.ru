@@ -1,6 +1,6 @@
 require './lib/instadroid-server/framework'
-require './lib/instadroid-server/api'
+require './lib/instadroid-server/app'
 
-app = API.new
+app = App.new
 app.setup
 run app
