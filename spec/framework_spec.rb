@@ -69,15 +69,20 @@ describe Framework do
     resp.should == "bar"
   end  
 
-  it "should ignore unknown paths" do 
+  it "should let you specify a default code block to be run for unknown paths" do 
     f = Framework.new
     path = '/index.html'
 
-    expect { f.call({"SERVER_SOFTWARE"=>"Apache/2.2.20 (Unix) DAV/2 Phusion_Passenger/3.0.9", 
+    block = Proc.new { 
+      "bar"
+    }
+
+    f.get :default, &block
+    resp = f.call({"SERVER_SOFTWARE"=>"Apache/2.2.20 (Unix) DAV/2 Phusion_Passenger/3.0.9", 
                    "SERVER_PROTOCOL"=>"HTTP/1.1",                
-                   "REQUEST_METHOD"=>"POST",
+                   "REQUEST_METHOD"=>"GET",
                    "REQUEST_URI" => path
                  })
-           }.to_not raise_error(NoMethodError)
+    resp.should == "bar"
   end
 end

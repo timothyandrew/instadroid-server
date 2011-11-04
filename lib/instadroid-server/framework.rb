@@ -20,7 +20,11 @@ class Framework
     begin
       @path_hashes[method][path].call
     rescue NoMethodError
-      [404, {"Content-Type" => "text/html"}, "Invalid URL"]
+      begin
+        @path_hashes[method][:default].call
+      rescue NoMethodError
+        [404, {"Content-Type"=>"text/html"}, "Invalid URL"]
+      end
     end
   end
 end
