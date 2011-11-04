@@ -8,7 +8,7 @@ module DB
     )
 
     image = Image.create(
-      :path => "/Users/tim/dev/project/instadroid-server/public/images/cat.jpg",
+      :path => "/static/images/cat.jpg",
       :user => user
     )
   end

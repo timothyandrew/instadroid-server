@@ -9,7 +9,7 @@ class Image
   validates_with_method :image_exists?
 
   def image_exists?
-    if FileTest.exists?("#{path}")
+    if FileTest.exists?("#{Dir.pwd+path}")
       true
     else
       [ false, "Image doesn't exist." ]

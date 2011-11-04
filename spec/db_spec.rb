@@ -18,7 +18,7 @@ describe DB do
     )
 
     @image = Image.create(
-      :path => "/Users/tim/dev/project/instadroid-server/images/cat.jpg",
+      :path => "/static/images/cat.jpg",
       :user => @user
     )
   end
@@ -31,7 +31,7 @@ describe DB do
   describe "images" do
     it "get saved if an image exists at the specified path" do
       i = Image.create(
-        :path => "/Users/tim/dev/project/instadroid-server/images/cat.jpg",
+        :path => "/static/images/cat.jpg",
         :user => @user
       )      
       i.saved?.should be_true
@@ -39,7 +39,7 @@ describe DB do
 
     it "do not get saved if an image DOES NOT exist at the specified path" do
       i = Image.create(
-        :path => "/Users/tim/dev/project/instadroid-server/images/somefilethatdoesnotexist.jpg",
+        :path => "/static/images/somefilethatdoesnotexist.jpg",
         :user => @user
       )      
       i.saved?.should_not be_true
