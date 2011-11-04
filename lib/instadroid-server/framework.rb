@@ -21,9 +21,14 @@ class Framework
       @path_hashes[method][path].call env
     rescue NoMethodError
       begin
-        @path_hashes[method][:default].call env
-      rescue NoMethodError
-        [404, {"Content-Type"=>"text/html"}, "Invalid URL"]
+        [200, {"Content-Type"=>"text/html"}, File.new(Dir.pwd+path, "r").read]
+      rescue Errno::ENOENT
+        begin
+          @path_hashes[method][:default].call env
+        rescue NoMethodError
+          [404, {"Content-Type"=>"text/html"}, "404"]
+        end
+
       end
     end
   end
