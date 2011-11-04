@@ -3,9 +3,9 @@ require 'rake'
 require 'rspec/core/rake_task'
 
 desc 'Default: run server specs'
-task :default => :server
+task :default => :all
 
-desc "Run server specs"
-RSpec::Core::RakeTask.new(:server) do |spec|
+desc "Run all specs"
+RSpec::Core::RakeTask.new(:all) do |spec|
   spec.pattern = "./spec/*_spec.rb"
 end
