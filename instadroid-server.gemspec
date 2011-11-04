@@ -4,7 +4,7 @@ require "instadroid-server/version"
 
 Gem::Specification.new do |s|
   s.name        = "instadroid-server"
-  s.version     = Instadroid::Server::VERSION
+  s.version     = Instadroid::VERSION
   s.authors     = ["Timothy Andrew"]
   s.email       = ["mail@timothyandrew.net"]
   s.homepage    = ""
