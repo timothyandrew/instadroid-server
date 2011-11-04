@@ -1,0 +1,5 @@
+%html
+  %head
+    %title= "Image by #{username}"
+  %body
+    %img{:src => "http://#{env['SERVER_ADDR']}#{path}"}

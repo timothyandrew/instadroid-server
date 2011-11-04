@@ -22,11 +22,11 @@ class Framework
     rescue NoMethodError
       begin
         [200, {"Content-Type"=>"text/html"}, File.new(Dir.pwd+path, "r").read]
-      rescue Errno::ENOENT
+      rescue
         begin
           @path_hashes[method][:default].call env
         rescue NoMethodError
-          [404, {"Content-Type"=>"text/html"}, "404"]
+          [404, {"Content-Type"=>"text/html"}, @path_hashes.to_s]
         end
 
       end
