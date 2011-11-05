@@ -1,10 +1,37 @@
 require './lib/instadroid-server/framework'
 
 describe Framework do
-  it "must store paths mapped to code-blocks" do
+  it "maps paths to code-blocks directly" do
     f = Framework.new
     f.path_hashes.should be_kind_of(Hash)
     f.path_hashes.values.all? {|hash| hash.should be_kind_of(Hash) }
+  end
+
+  it "maps paths to code-blocks using regexes" do
+    f = Framework.new
+
+    block = Proc.new {
+      "foo"
+    }
+
+    f.get /\/public\/.*/, &block
+    opts = {"SERVER_SOFTWARE"=>"Apache/2.2.20 (Unix) DAV/2 Phusion_Passenger/3.0.9", 
+                   "SERVER_PROTOCOL"=>"HTTP/1.1",                
+                   "REQUEST_METHOD"=>"GET",
+                   "PATH_INFO" => "/public/",
+                   "QUERY_STRING" => "a=foo&b=bar"
+                 }
+
+    resp = f.call(opts)
+    resp.should == "foo"
+
+    opts["PATH_INFO"] = "/public/bar"
+    resp = f.call(opts)
+    resp.should == "foo"
+
+    opts["PATH_INFO"] = "/public/bar/baz"
+    resp = f.call(opts)
+    resp.should == "foo"
   end
 
   it "must store GET & POST paths separately" do 

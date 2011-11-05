@@ -23,6 +23,10 @@ class App < Framework
       [200, {"Content-Type" => "text/html"}, @engine.render(Object.new, haml_vars)]
     end
 
+    get /\/public\/?.*\/abc/ do |env|
+      [200, {"Content-Type" => "text/html"}, "Public"]
+    end
+
     get :default do |env|
       [200, {"Content-Type" => "text/html"}, env.to_s]
     end

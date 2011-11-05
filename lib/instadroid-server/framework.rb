@@ -21,14 +21,17 @@ class Framework
       @path_hashes[method][path].call env
     rescue NoMethodError
       begin
-        [200, {"Content-Type"=>"text/html"}, File.new(Dir.pwd+path, "r").read]
+        @path_hashes[method].select { |k,v| k.class == Regexp and k.match(path) }.values.first.call env
       rescue
         begin
-          @path_hashes[method][:default].call env
-        rescue NoMethodError
-          [404, {"Content-Type"=>"text/html"}, @path_hashes.to_s]
+          [200, {"Content-Type"=>"text/html"}, File.new(Dir.pwd+path, "r").read]
+        rescue
+            begin
+              @path_hashes[method][:default].call env
+            rescue
+              [404, {"Content-Type"=>"text/html"}, @path_hashes.to_s]
+            end
         end
-
       end
     end
   end
