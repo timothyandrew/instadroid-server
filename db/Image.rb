@@ -1,8 +1,10 @@
 class Image
   include DataMapper::Resource
 
-  property :id,        Serial
-  property :path,      Text, :required => true
+  property :id,               Serial
+  property :path,             Text, :required => true
+  property :title,            String
+  property :description,      Text
 
   belongs_to :user
 

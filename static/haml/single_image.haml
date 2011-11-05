@@ -1,5 +1,11 @@
 %html
   %head
-    %title= "Image by #{username}"
+    %title= "#{title} by #{username}"
+    %link{:rel => "stylesheet", :href => "http://#{env['SERVER_ADDR']}/static/css/style.css"}
   %body
-    %img{:src => "http://#{env['SERVER_ADDR']}#{path}"}
+    #image
+      %img{:src => "http://#{env['SERVER_ADDR']}#{path}"}
+    #title= "#{title}"
+    #description= "#{desc}"
+    #user= "Photo taken by #{username}"
+      

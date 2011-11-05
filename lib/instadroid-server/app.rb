@@ -11,16 +11,16 @@ class App < Framework
     DataMapper.finalize
     DataMapper.auto_migrate!
     DB.migrate
-
-    @engine = Haml::Engine.new(File.new(Dir.pwd+"/static/haml/single_image.haml").read)
   end
 
   def create_routes
     get '/' do |env|
       user = User.get(1)
       image = user.images.first
-       
-      [200, {"Content-Type" => "text/html"}, @engine.render(Object.new, {:path => image.path, :username => user.username, :env => env})]
+
+      @engine = Haml::Engine.new(File.new(Dir.pwd+"/static/haml/single_image.haml").read)
+      haml_vars = {:title => image.title || "<no title>", :path => image.path, :username => user.username, :env => env, :desc => image.description}
+      [200, {"Content-Type" => "text/html"}, @engine.render(Object.new, haml_vars)]
     end
 
     get :default do |env|

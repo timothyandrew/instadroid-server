@@ -9,7 +9,9 @@ module DB
 
     image = Image.create(
       :path => "/static/images/cat.jpg",
-      :user => user
+      :user => user,
+      :title => "Cat",
+      :description => "This is a cat."
     )
   end
 end
